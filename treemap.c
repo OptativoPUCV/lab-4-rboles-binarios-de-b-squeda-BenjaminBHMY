@@ -90,40 +90,30 @@ TreeNode * minimum(TreeNode * x){
 
 
 void removeNode(TreeMap * tree, TreeNode* node) {
-    TreeNode *temp = tree->root; 
-
-    while (temp != NULL)
-    {
-        if (temp == node) break;
-        else if (tree->lower_than(node->pair->key, temp->pair->key) == 1) {
-            temp = temp->left;
-        }
-        else temp = temp->right;
-    }
-
-    if (temp->left == NULL && temp->right == NULL) {
-        if (temp != tree->root) {
-            if (temp->parent->left == temp) temp->parent->left = NULL;
-            else temp->parent->right = NULL;
+    if (node->left == NULL && node->right == NULL) {
+        if (node->parent != NULL) {
+            if (node->parent->left == node) node->parent->left = NULL;
+            else node->parent->right = NULL;
         }
         else tree->root = NULL;
-        free(temp);
+        free(node->pair);
+        free(node);
     }
-
-    else if (temp->left == NULL || temp->right == NULL){
-        TreeNode *child = (temp->left != NULL) ? temp->left : temp->right;
-        if (temp != tree->root) {
-            if (temp->parent->left == temp) temp->parent->left = child;
-            else temp->parent->right = child;
+    else if (node->left == NULL || node->right == NULL) {
+        TreeNode *child = (node->left != NULL) ? node->left : node->right;
+        if (node->parent != NULL) {
+            if (node->parent->left == node) node->parent->left = child;
+            else node->parent->right = child;
         }
         else tree->root = child;
-        free(temp);
+        child->parent = node->parent;
+        free(node->pair);
+        free(node);
     }
-
     else {
-        TreeNode *successor = minimum(temp->right);
-        temp->pair->key = successor->pair->key;
-        temp->pair->value = successor->pair->value;
+        TreeNode *successor = minimum(node->right);
+        free(node->pair);
+        node->pair = successor->pair;
         removeNode(tree, successor);
     }
 }
