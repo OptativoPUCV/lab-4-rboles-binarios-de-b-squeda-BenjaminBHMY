@@ -21,3 +21,9 @@ treemap.c:79:13: error: implicit declaration of function 'is_equual' [-Werror=im
              ^~~~~~~~~
 cc1.exe: all warnings being treated as errors
 c191a58
+Sun, May  4, 2025 10:54:20 AM: 
+ treemap.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests:  11|6
+total_score: 15/70
+ce15df1
